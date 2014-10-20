@@ -20,3 +20,4 @@ temp
 .lein-deps-sum
 .lein-failures
 .lein-plugins
+.nrepl-port
