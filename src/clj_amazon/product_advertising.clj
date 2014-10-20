@@ -36,7 +36,7 @@
     :Children [:children (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :DetailPageURL [:detail-page-url (first (:content xml))]
     :Item [:items (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
-    :ItemAttributes [:item-attributes (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))] ;; fix this typo
+    :ItemAttributes [:item-attributes (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ItemLinks [:item-links (vec (map parse-results (:content xml)))]
     :ItemLink {:description (-> xml :content first :content first), :url (-> xml :content second :content first)}
     :Manufacturer [:manufacturer (first (:content xml))]
