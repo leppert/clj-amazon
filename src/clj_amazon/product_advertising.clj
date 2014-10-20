@@ -1,6 +1,6 @@
 ;; Copyright (C) 2011, Eduardo Julián. All rights reserved.
 ;;
-;; The use and distribution terms for this software are covered by the 
+;; The use and distribution terms for this software are covered by the
 ;; Eclipse Public License 1.0
 ;; (http://opensource.org/licenses/eclipse-1.0.php) which can be found
 ;; in the file epl-v10.html at the root of this distribution.
@@ -16,17 +16,20 @@
   (:require [clojure.walk :as walk]))
 
 (defn- parse-results [xml]
-  ;(prn xml)
+  ;;(prn xml)
   (case (:tag xml)
-    ; Stuff to omit
+    ;; Stuff to omit
     :OperationRequest [nil nil]
     :Request [nil nil]
-    ; Containers
+    ;; Containers
     :BrowseNodeLookupResponse (parse-results (second (:content xml)))
+    :ItemLookupResponse (parse-results (second (:content xml)))
     :ItemSearchResponse (parse-results (second (:content xml)))
     :BrowseNodes (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
     :Items (reduce #(apply assoc+ %1 (parse-results %2)) {:items []} (:content xml))
-    ; Stuff to use
+
+
+    ;; Stuff to use
     :Actor [:actor (first (:content xml))]
     :Ancestors [:ancestors (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ASIN [:asin (first (:content xml))]
