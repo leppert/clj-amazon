@@ -15,6 +15,11 @@
   (:use clj-amazon.core)
   (:require [clojure.walk :as walk]))
 
+(defmacro dbg [& body]
+  `(let [x# ~@body]
+     (println (str "dbg: " (quote ~@body) "=" x#))
+     x#))
+
 (defn- parse-results [xml]
   ;;(prn xml)
   (case (:tag xml)
@@ -56,8 +61,8 @@
     [nil nil] ; In case some weird tag appears, ignore it for now.
     ))
 
-; Imagine that this macro is a VERY specialized do-template
-(defmacro ^:private make-fns [& specifics] 
+                                        ; Imagine that this macro is a VERY specialized do-template
+(defmacro ^:private make-fns [& specifics]
   (let [standard-fields '(response-group subscription-id associate-tag merchant-id)]
     `(do ~@(for [[operation specific-appends] (partition 2 specifics)]
              (let [strs (_extract-strs specific-appends),
@@ -69,38 +74,38 @@
                                    "ResponseGroup" ~'response-group, "SubscriptionId" ~'subscription-id,
                                    "AssociateTag" ~'associate-tag, "MerchantId" ~'merchant-id,
                                    ~@(interleave strs mvars))
-                    (.sign *signer*) fetch-url parse-results
-                    )))
+                       (.sign *signer*) fetch-url parse-results
+                       )))
              ))))
 
 (make-fns
-  "ItemLookup" ; item-lookup
-  ["ItemId" "SearchIndex" "Condition" "IdType" (_bool->str "IncludeReviewsSummary") "OfferPage" "VariationPage"
-   "RelatedItemPage" "RelationshipType" "ReviewPage" "ReviewSort" "TagPage" "TagsPerPage" "TagSort" "TruncateReviewsAt"]
+ "ItemLookup" ; item-lookup
+ ["ItemId" "SearchIndex" "Condition" "IdType" (_bool->str "IncludeReviewsSummary") "OfferPage" "VariationPage"
+  "RelatedItemPage" "RelationshipType" "ReviewPage" "ReviewSort" "TagPage" "TagsPerPage" "TagSort" "TruncateReviewsAt"]
   ;;;;;;;;;;;;;;;;;;
-  "ItemSearch" ; item-search
-  ["Actor" "Artist" "AudienceRating" "Author" "Availability" "Brand" "BrowseNode" "City" "Composer" "Condition" "Conductor"
-   "Director" (_bool->str "IncludeReviewsSummary") "ItemPage" (encode-url "Keywords") "Manufacturer" "MaximumPrice" "MinimumPrice"
-   "Neighborhood" "Orchestra" "PostalCode" "Power" "Publisher" "RelatedItemPage" "RelationshipType" "ReviewSort" "SearchIndex"
-   "Sort" "TagPage" "TagsPerPage" "TagSort" "TextStream" "Title" "TruncateReviewsAt" "VariationPage"]
+ "ItemSearch" ; item-search
+ ["Actor" "Artist" "AudienceRating" "Author" "Availability" "Brand" "BrowseNode" "City" "Composer" "Condition" "Conductor"
+  "Director" (_bool->str "IncludeReviewsSummary") "ItemPage" (encode-url "Keywords") "Manufacturer" "MaximumPrice" "MinimumPrice"
+  "Neighborhood" "Orchestra" "PostalCode" "Power" "Publisher" "RelatedItemPage" "RelationshipType" "ReviewSort" "SearchIndex"
+  "Sort" "TagPage" "TagsPerPage" "TagSort" "TextStream" "Title" "TruncateReviewsAt" "VariationPage"]
   ;;;;;;;;;;;;;;;;;;
-  "BrowseNodeLookup" ["BrowseNodeId"] ; browse-node-lookup
+ "BrowseNodeLookup" ["BrowseNodeId"] ; browse-node-lookup
   ;;;;;;;;;;;;;;;;;;
-  "CartAdd" ["ASIN" "CartId" "HMAC" "Item" "Items" "OfferListingId" "Quantity"] ; cart-add
+ "CartAdd" ["ASIN" "CartId" "HMAC" "Item" "Items" "OfferListingId" "Quantity"] ; cart-add
   ;;;;;;;;;;;;;;;;;;
-  "CartClear" ["CartId" "HMAC"] ; cart-clear
+ "CartClear" ["CartId" "HMAC"] ; cart-clear
   ;;;;;;;;;;;;;;;;;;
-  "CartCreate" ["ASIN" "Item" "Items" "ListItemId" "OfferListingId" "Quantity"] ; cart-create
+ "CartCreate" ["ASIN" "Item" "Items" "ListItemId" "OfferListingId" "Quantity"] ; cart-create
   ;;;;;;;;;;;;;;;;;;
-  "CartGet" ["CartId" "CartItemId" "HMAC"] ; cart-get
+ "CartGet" ["CartId" "CartItemId" "HMAC"] ; cart-get
   ;;;;;;;;;;;;;;;;;;
-  "CartModify" ["Action" "CartId" "CartItemId" "HMAC" "Item" "Items" "Quantity"] ; cart-modify
+ "CartModify" ["Action" "CartId" "CartItemId" "HMAC" "Item" "Items" "Quantity"] ; cart-modify
   ;;;;;;;;;;;;;;;;;;
-  "SellerListingLookup" ["Id" "IdType" "SellerId"] ; seller-listing-lookup
+ "SellerListingLookup" ["Id" "IdType" "SellerId"] ; seller-listing-lookup
   ;;;;;;;;;;;;;;;;;;
-  "SellerListingSearch" ["ListingPage" "OfferStatus" "SellerId" "Sort" "Title"] ; seller-listing-search
+ "SellerListingSearch" ["ListingPage" "OfferStatus" "SellerId" "Sort" "Title"] ; seller-listing-search
   ;;;;;;;;;;;;;;;;;;
-  "SellerLookup" ["FeedbackPage" "SellerId"] ; seller-lookup
+ "SellerLookup" ["FeedbackPage" "SellerId"] ; seller-lookup
   ;;;;;;;;;;;;;;;;;;
-  "SimilarityLookup" ["Condition" "ItemId" "SimilarityType"] ; similarity-lookup
+ "SimilarityLookup" ["Condition" "ItemId" "SimilarityType"] ; similarity-lookup
   )
