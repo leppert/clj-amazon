@@ -1,31 +1,34 @@
 clj-amazon
 ==========
 
-Clojure wrapper library for Amazon Product Advertising API, forked from code on Clojars by eduardoejp.
+Clojure wrapper library for Amazon Product Advertising API, originally forked from code on Clojars by eduardoejp, with subsequent edits by jakemcc.
+
+It's gradually evolving to include more and more field types from the Amazon API, but not yet complete.
+Add more cases to the form in ```parse-results``` to extend.
 
 ## Usage
 
+    ...not in Clojars yet, bear with me...
+
+### From the REPL
 Leiningen 2 has been used with this project.
 
-
     lein deps
-
     lein repl
 
-
-And at the REPL...
+And at the REPL:
 
     (use 'clj-amazon.core)
-
     (use 'clj-amazon.product-advertising)
 
     (def ACCESS-KEY "YOUR-ACCESS-KEY-HERE" )
-
     (def SECRET-KEY "YOUR-SECRET-KEY-HERE" )
-
     (def ASSOCIATE-ID "YOUR-ASSOCIATE-ID-HERE")
+    (def ENDPOINT "webservices.amazon.co.uk") ;; Amazon UK product API
 
-    (def gibson-opus-search (with-signer (ACCESS-KEY, SECRET-KEY) (item-search :search-index "Books", :keywords "Neuromancer", :associate-tag ASSOCIATE-ID, :condition "New")))
+    (def gibson-opus-search (with-signer (ACCESS-KEY SECRET-KEY ENDPOINT) (item-search :search-index "Books", :keywords "Neuromancer", :associate-tag ASSOCIATE-ID, :condition "New")))
+
+    (def lookup-specific-item (with-signer (ACCESS-KEY SECRET-KEY ENDPOINT) (item-lookup :associate-tag ASSOCIATE-ID :item-id "B0069KPSPC" :response-group "ItemAttributes,OfferSummary")))
 
 
 ## Reference

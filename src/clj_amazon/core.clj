@@ -25,7 +25,6 @@
 (def +service+ "AWSECommerceService")
 (def +service-version+ "2011-08-01" ;"2009-03-31"
   )
-(def +endpoint+ "webservices.amazon.co.uk")
 
 (defn percent-encode-rfc-3986 [s]
   (-> (java.net.URLEncoder/encode (str s) +utf-8+)
@@ -75,12 +74,11 @@
       String.)))
 
 (defn signed-request-helper "Try not to use this directly. Better use it through with-signer."
-  [access-key secret-key]
+  [access-key secret-key endpoint]
   (let [secret-key-spec (-> secret-key (.getBytes +utf-8+) (javax.crypto.spec.SecretKeySpec. +hmac-sha256+))
         mac (javax.crypto.Mac/getInstance +hmac-sha256+)]
     (.init mac secret-key-spec)
-    (SignedRequestsHelper. +endpoint+ access-key secret-key
-                           secret-key-spec mac)))
+    (SignedRequestsHelper. endpoint access-key secret-key secret-key-spec mac)))
 
 ; The following are the basic utils for Amazon's APIs.
 (def ^:dynamic *signer*)
