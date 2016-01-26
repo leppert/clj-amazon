@@ -20,8 +20,9 @@
      (println (str "dbg: " (quote ~@body) "=" x#))
      x#))
 
+
 (defn- parse-results [xml]
-  ;;(prn xml)
+  ;;(clojure.pprint/pprint xml)
   (case (:tag xml)
     ;; Stuff to omit
     :OperationRequest [nil nil]
@@ -49,6 +50,8 @@
     :ItemLink {:description (-> xml :content first :content first), :url (-> xml :content second :content first)}
     :Manufacturer [:manufacturer (first (:content xml))]
     :Name [:name (first (:content xml))]
+    :OfferSummary [:offer-summary (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
+    :LowestNewPrice [:lowest-new-price {:amount (-> xml :content first :content) :formatted-price (-> xml :content (nth 2) :content)}]
     :ProductGroup [:product-group (first (:content xml))]
     :NewReleases [:new-releases (map parse-results (:content xml))]
     :NewRelease (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
