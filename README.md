@@ -7,8 +7,9 @@ It's gradually evolving to include more and more field types from the Amazon API
 Add more cases to the form in ```parse-results``` to extend.
 
 ## Usage
+Add this to the `:dependencies` section of your `project.clj`
 
-    ...not in Clojars yet, bear with me...
+    [org.clojars.rorygibson/clj-amazon "0.3.0-SNAPSHOT"]
 
 ### From the REPL
 Leiningen 2 has been used with this project.
