@@ -19,7 +19,7 @@
           query     (str "GET\n" endpoint "\n" "/onca/xml" "\n" query-str)
           hmac      (.hmac self query)
           encoded   (percent-encode-rfc-3986 hmac UTF-8)]
-        (str "http://" endpoint "/onca/xml" "?" query-str "&Signature=" encoded)))
+      (str "http://" endpoint "/onca/xml" "?" query-str "&Signature=" encoded)))
 
   (hmac [self string]
     (-> string (.getBytes UTF-8)
