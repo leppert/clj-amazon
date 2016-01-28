@@ -25,10 +25,11 @@ And at the REPL:
     (def SECRET-KEY "YOUR-SECRET-KEY-HERE" )
     (def ASSOCIATE-ID "YOUR-ASSOCIATE-ID-HERE")
     (def ENDPOINT "webservices.amazon.co.uk") ;; Amazon UK product API
+    (def signer (signed-request-helper ACCESS-KEY SECREATE-KEY ENDPOINT)
 
-    (def gibson-opus-search (with-signer (ACCESS-KEY SECRET-KEY ENDPOINT) (item-search :search-index "Books", :keywords "Neuromancer", :associate-tag ASSOCIATE-ID, :condition "New")))
+    (def gibson-opus-search (item-search :signer signer :search-index "Books", :keywords "Neuromancer", :associate-tag ASSOCIATE-ID, :condition "New"))
 
-    (def lookup-specific-item (with-signer (ACCESS-KEY SECRET-KEY ENDPOINT) (item-lookup :associate-tag ASSOCIATE-ID :item-id "B0069KPSPC" :response-group "ItemAttributes,OfferSummary")))
+    (def lookup-specific-item (item-lookup :signer signer :associate-tag ASSOCIATE-ID :item-id "B0069KPSPC" :response-group "ItemAttributes,OfferSummary"))
 
 
 ## Reference
