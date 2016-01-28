@@ -17,7 +17,7 @@
 
 (defmacro dbg [& body]
   `(let [x# ~@body]
-     (println (str "dbg: " (quote ~@body) "=" x#))
+     (clojure.pprint/pprint (str "dbg: " (quote ~@body) "     =     " x#))
      x#))
 
 
@@ -64,22 +64,23 @@
     [nil nil] ; In case some weird tag appears, ignore it for now.
     ))
 
-                                        ; Imagine that this macro is a VERY specialized do-template
+;; Imagine that this macro is a VERY specialized do-template
 (defmacro ^:private make-fns [& specifics]
-  (let [standard-fields '(response-group subscription-id associate-tag merchant-id)]
+  (let [standard-fields '(response-group subscription-id associate-tag merchant-id signer)]
     `(do ~@(for [[operation specific-appends] (partition 2 specifics)]
              (let [strs (_extract-strs specific-appends),
                    vars (_extract-vars specific-appends),
                    susts (apply hash-map (interleave strs vars)),
                    mvars (walk/prewalk-replace susts specific-appends)]
-               `(defn ~(_str->sym operation) "" [& {:keys ~(vec (concat standard-fields vars))}]
-                  (->> (sorted-map "Service" +service+, "Version" +service-version+, "Operation" ~operation,
-                                   "ResponseGroup" ~'response-group, "SubscriptionId" ~'subscription-id,
-                                   "AssociateTag" ~'associate-tag, "MerchantId" ~'merchant-id,
-                                   ~@(interleave strs mvars))
-                       (.sign *signer*) fetch-url parse-results
-                       )))
-             ))))
+               `(defn ~(_str->sym operation) "<generated, no doc>" [& {:keys ~(vec (concat standard-fields vars))}]
+                  (->> (sorted-map "Service" "AWSECommerceService", "Version" "2011-08-01", "Operation" ~operation,
+                         "ResponseGroup" ~'response-group, "SubscriptionId" ~'subscription-id,
+                         "AssociateTag" ~'associate-tag, "MerchantId" ~'merchant-id,
+                         ~@(interleave strs mvars))
+                    (.sign ~'signer)
+                    fetch-url
+                    parse-results)))))))
+
 
 (make-fns
  "ItemLookup" ; item-lookup
