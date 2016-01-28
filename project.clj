@@ -6,7 +6,7 @@
             :distribution :repo
             :comments "same as Clojure"}
   :plugins [[lein-autodoc "0.9.0"]]
-  :dependencies [[org.clojure/clojure "1.7.0"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
                  [clj-http "2.0.1"]]
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :gpg :password :gpg}]
