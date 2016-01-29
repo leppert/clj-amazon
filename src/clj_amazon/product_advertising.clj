@@ -15,14 +15,16 @@
   (:use clj-amazon.core)
   (:require [clojure.walk :as walk]))
 
+
 (defmacro dbg [& body]
+  "Dump expansions"
   `(let [x# ~@body]
      (clojure.pprint/pprint (str "dbg: " (quote ~@body) "     =     " x#))
      x#))
 
 
 (defn- parse-results [xml]
-  ;;(clojure.pprint/pprint xml)
+  "Pull specific information out of response tags"
   (case (:tag xml)
     ;; Stuff to omit
     :OperationRequest [nil nil]
@@ -63,6 +65,7 @@
     :Type [:type (first (:content xml))]
     [nil nil] ; In case some weird tag appears, ignore it for now.
     ))
+
 
 ;; Imagine that this macro is a VERY specialized do-template
 (defmacro ^:private make-fns [& specifics]
