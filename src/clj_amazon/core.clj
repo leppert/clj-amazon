@@ -20,19 +20,27 @@
 (def UTF-8 "UTF-8")
 
 
+(defn time-format
+  []
+  (doto (java.text.SimpleDateFormat. "yyyy-MM-dd'T'HH:mm:ss'.000Z'")
+    (.setTimeZone (java.util.TimeZone/getTimeZone "GMT"))))
+
+
+(defn timestamp
+  ([ts]
+   (.format (time-format) ts))
+  ([]
+   (let [now (.getTime (java.util.Calendar/getInstance))]
+     (timestamp now))))
+
+
+
 (defn percent-encode-rfc-3986
   [s encoding]
   (-> (java.net.URLEncoder/encode (str s) encoding)
     (.replace "+" "%20")
     (.replace "*" "%2A")
     (.replace "%7E" "~")))
-
-
-(defn timestamp
-  []
-  (-> (doto (java.text.SimpleDateFormat. "yyyy-MM-dd'T'HH:mm:ss'.000Z'")
-        (.setTimeZone (java.util.TimeZone/getTimeZone "GMT")))
-    (.format (.getTime (java.util.Calendar/getInstance)))))
 
 
 (defn canonicalize [sorted-map encoding]
