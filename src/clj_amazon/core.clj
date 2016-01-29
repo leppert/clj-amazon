@@ -92,8 +92,10 @@
 
 (defn _str->sym
   [string]
-  (-> (reduce #(if (Character/isUpperCase %2) (str %1 "-" (Character/toLowerCase %2)) (str %1 %2)) "" string)
-    (.substring 1) symbol ))
+  (if (empty? string)
+    nil
+    (-> (reduce #(if (Character/isUpperCase %2) (str %1 "-" (Character/toLowerCase %2)) (str %1 %2)) "" string)
+      (.substring 1) symbol )))
 
 
 (defn _extract-strs

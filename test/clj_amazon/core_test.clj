@@ -40,3 +40,21 @@
     (is (= "False" (_bool->str false)))
     (is (= "True" (_bool->str :foobar)))
     (is (= "False" (_bool->str nil)))))
+
+
+(deftest str-sym
+  (testing "Symbolises strings"
+    (is (= 'foo (_str->sym "Foo")))
+    (is (= 'foo-bar (_str->sym "FooBar")))
+    (is (= nil (_str->sym nil)))
+    (is (= nil (_str->sym "")))))
+
+
+(deftest extracts-strs
+  (testing "Pulls second values out of nested lists"
+    (is (= '("abc" "ghi") (_extract-strs (list "abc" (list "def" "ghi")))))))
+
+
+(deftest extracts-vars
+  (testing "Symbolises values pulled by _extract-strs"
+    (is (= '(abc ghi) (_extract-vars (list "Abc" (list "Def" "Ghi")))))))
