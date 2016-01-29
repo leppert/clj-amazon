@@ -21,12 +21,14 @@
 
 
 (defn time-format
+  "Defines time format used by Amazon API"
   []
   (doto (java.text.SimpleDateFormat. "yyyy-MM-dd'T'HH:mm:ss'.000Z'")
     (.setTimeZone (java.util.TimeZone/getTimeZone "GMT"))))
 
 
 (defn timestamp
+  "Create a formatted timestamp suitable for consumption by Amazon API"
   ([ts]
    (.format (time-format) ts))
   ([]
@@ -34,13 +36,16 @@
      (timestamp now))))
 
 
-
 (defn percent-encode-rfc-3986
+  "Amazon specific flavour of encoding"
   [s encoding]
   (-> (java.net.URLEncoder/encode (str s) encoding)
     (.replace "+" "%20")
     (.replace "*" "%2A")
     (.replace "%7E" "~")))
+
+
+
 
 
 (defn canonicalize [sorted-map encoding]
@@ -64,11 +69,13 @@
 
 
 (defn encode-url
+  "Straight URL encode in a given charset"
   [url encoding]
   (if url (java.net.URLEncoder/encode url encoding)))
 
 
 (defn assoc+
+  "Associate a key and value with a map. If the key already exists, replace the value with a vector of values containing the original value, and onj the new v onto the vector."
   ([m k v]
    (let [item (get m k)]
      (if k

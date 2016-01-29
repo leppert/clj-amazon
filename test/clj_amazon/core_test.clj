@@ -18,3 +18,25 @@
     (is (= "foo%2Abar" (percent-encode-rfc-3986 "foo*bar" UTF-8))))
   (testing "Does not encode ~ to %7E, leaves it as ~"
     (is (= "foo~bar" (percent-encode-rfc-3986 "foo~bar" UTF-8)))))
+
+
+(deftest assoc+-does-what-its-meant-to
+  (testing "Assoc value with empty map"
+    (is (= {:a :b} (assoc+ {} :a :b))))
+
+  (testing "Assoc value with populated map"
+    (is (= {:a :b :c :d} (assoc+ {:a :b} :c :d))))
+
+  (testing "Assoc value with populated map with duplicate key"
+    (is (= {:a [:b :c]} (assoc+ {:a :b} :a :c))))
+
+  (testing "Nil map acts like empty map"
+    (is (= {:a :b} (assoc+ nil :a :b)))))
+
+
+(deftest bool-str
+  (testing "Map truthy values to 'True' or 'False'"
+    (is (= "True" (_bool->str true)))
+    (is (= "False" (_bool->str false)))
+    (is (= "True" (_bool->str :foobar)))
+    (is (= "False" (_bool->str nil)))))
