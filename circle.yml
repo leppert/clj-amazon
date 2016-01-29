@@ -1,11 +1,9 @@
 test:
   override:
     - mkdir -p target/surefire-reports
-    - lein with-profile +circleci test-out junit target/surefire-reports/tests.xml
+    - lein with-profile test-out junit target/surefire-reports/tests.xml
     - (( `grep "<failure" target/surefire-reports/tests.xml | wc -l` == 0 )) && (( `grep "<error" target/surefire-reports/tests.xml | wc -l` == 0 ))
     - cp -R target/surefire-reports $CIRCLE_TEST_REPORTS
-    - lein test
-
 
 deployment:
   snap:

@@ -5,7 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments "same as Clojure"}
-  :plugins [[lein-autodoc "0.9.0"]]
+  :plugins [[lein-autodoc "0.9.0"]
+            [lein-test-out "0.3.1"]]
   :exclusions [org.clojure/clojure]
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [clj-http "2.0.1"]]
