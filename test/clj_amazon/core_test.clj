@@ -62,4 +62,7 @@
 
 (deftest canonicalize-query-params
   (testing "Converts map of params to a query string"
-    (is (= "param1=value1&param2=value2&param3=value%20three" (canonicalize {"param1" "value1" "param2" "value2" "param3" "value three"} UTF-8)))))
+    (is (= "param1=value1&param2=value2&param3=value%20three" (canonicalize {"param1" "value1" "param2" "value2" "param3" "value three"} UTF-8))))
+
+  (testing "Doesn't pass through nils"
+    (is (= "" (canonicalize {"Param" nil} UTF-8)))))

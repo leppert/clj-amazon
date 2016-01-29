@@ -6,15 +6,15 @@
 
 
 (defprotocol ISignedRequestsHelper
-  (sign [self params])
+  (sign [self params timestamp])
   (hmac [self string]))
 
 
 (defrecord SignedRequestsHelper [endpoint access-key secret-key secret-key-spec mac]
   ISignedRequestsHelper
-  (sign [self params]
+  (sign [self timestamp params]
     (let [query-str (-> params
-                      (assoc "AWSAccessKeyId" access-key, "Timestamp" (timestamp))
+                      (assoc "AWSAccessKeyId" access-key, "Timestamp" timestamp)
                       (canonicalize UTF-8))
           query     (str "GET\n" endpoint "\n" "/onca/xml" "\n" query-str)
           hmac      (.hmac self query)

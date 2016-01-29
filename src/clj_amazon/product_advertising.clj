@@ -69,7 +69,7 @@
 
 ;; Imagine that this macro is a VERY specialized do-template
 (defmacro ^:private make-fns [& specifics]
-  (let [standard-fields '(response-group subscription-id associate-tag merchant-id signer)]
+  (let [standard-fields '(response-group subscription-id associate-tag merchant-id signer timestamp)]
     `(do ~@(for [[operation specific-appends] (partition 2 specifics)]
              (let [strs (_extract-strs specific-appends),
                    vars (_extract-vars specific-appends),
@@ -79,8 +79,9 @@
                   (->> (sorted-map "Service" "AWSECommerceService", "Version" "2011-08-01", "Operation" ~operation,
                          "ResponseGroup" ~'response-group, "SubscriptionId" ~'subscription-id,
                          "AssociateTag" ~'associate-tag, "MerchantId" ~'merchant-id,
+                         "Timestamp" ~'timestamp
                          ~@(interleave strs mvars))
-                    (.sign ~'signer)
+                    (.sign ~'signer ~'timestamp)
                     fetch-url
                     parse-results)))))))
 
