@@ -45,9 +45,6 @@
     (.replace "%7E" "~")))
 
 
-
-
-
 (defn canonicalize [sorted-map encoding]
   (if (empty? sorted-map)
     ""
