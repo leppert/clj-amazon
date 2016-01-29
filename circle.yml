@@ -5,8 +5,8 @@ test:
     - (( `grep "<failure" target/surefire-reports/tests.xml | wc -l` == 0 )) && (( `grep "<error" target/surefire-reports/tests.xml | wc -l` == 0 ))
     - cp -R target/surefire-reports $CIRCLE_TEST_REPORTS
 
-deployment:
-  snap:
-    branch: master
-    commands:
-      - lein deploy clojars
+#deployment:
+#  snap:
+#    branch: master
+#    commands:
+#      - lein deploy clojars
