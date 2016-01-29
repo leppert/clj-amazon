@@ -1,6 +1,9 @@
 clj-amazon
 ==========
 
+[![CircleCI Status for rorygibson/clj-amazon](https://circleci.com/gh/rorygibson/clj-amazon.svg?style=shield&circle-token=:circle-token)]([![Circle CI](https://circleci.com/gh/jobdone/jobdone.io.svg?style=svg)](https://circleci.com/gh/rorygibson/clj-amazon))
+
+
 Clojure wrapper library for Amazon Product Advertising API, originally forked from code on Clojars by eduardoejp, with subsequent edits by jakemcc.
 
 It's gradually evolving to include more and more field types from the Amazon API, but not yet complete.
