@@ -22,18 +22,34 @@ Leiningen 2 has been used with this project.
 
 And at the REPL:
 
-    (use 'clj-amazon.core)
-    (use 'clj-amazon.product-advertising)
+    (:require [clj-amazon.core :as aws]
+              [clj-amazon.signed-request-helper :as signer]
+              [clj-amazon.product-advertising :as pa])
 
     (def ACCESS-KEY "YOUR-ACCESS-KEY-HERE" )
     (def SECRET-KEY "YOUR-SECRET-KEY-HERE" )
     (def ASSOCIATE-ID "YOUR-ASSOCIATE-ID-HERE")
-    (def ENDPOINT "webservices.amazon.co.uk") ;; Amazon UK product API
-    (def signer (signed-request-helper ACCESS-KEY SECREATE-KEY ENDPOINT)
+    (def ENDPOINT "webservices.amazon.com")
+    (def signer (signer/signed-request-helper ACCESS-KEY SECRET-KEY ENDPOINT)
 
-    (def gibson-opus-search (item-search :signer signer :search-index "Books", :keywords "Neuromancer", :associate-tag ASSOCIATE-ID, :condition "New"))
+    (pa/item-search
+      :timestamp (aws/timestamp)
+      :signer signer
+      :search-index "Books"
+      :keywords "Neuromancer"
+      :associate-tag ASSOCIATE-ID
+      :condition "New"
+      :response-group "ItemAttributes,Images,OfferSummary,EditorialReview")
 
-    (def lookup-specific-item (item-lookup :signer signer :associate-tag ASSOCIATE-ID :item-id "B0069KPSPC" :response-group "ItemAttributes,OfferSummary"))
+    (pa/item-lookup
+      :timestamp (aws/timestamp)
+      :signer signer
+      :associate-tag ASSOCIATE-ID
+      :item-id "0441569595"
+      :response-group "ItemAttributes,Images,OfferSummary,EditorialReview")
+
+
+
 
 
 ## Reference
