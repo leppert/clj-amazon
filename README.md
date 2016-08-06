@@ -1,7 +1,7 @@
 clj-amazon
 ==========
 
-[![CircleCI Status for rorygibson/clj-amazon](https://circleci.com/gh/rorygibson/clj-amazon.svg?style=shield&circle-token=:circle-token)]([![Circle CI](https://circleci.com/gh/jobdone/jobdone.io.svg?style=svg)](https://circleci.com/gh/rorygibson/clj-amazon))
+[![CircleCI Status for leppert/clj-amazon](https://circleci.com/gh/leppert/clj-amazon.svg?style=shield&circle-token=:circle-token)]([![Circle CI](https://circleci.com/gh/jobdone/jobdone.io.svg?style=svg)](https://circleci.com/gh/leppert/clj-amazon))
 
 
 Clojure wrapper library for Amazon Product Advertising API, originally forked from code on Clojars by eduardoejp, with subsequent edits by jakemcc.
@@ -12,7 +12,7 @@ Add more cases to the form in ```parse-results``` to extend.
 ## Usage
 Add this to the `:dependencies` section of your `project.clj`
 
-    [org.clojars.rorygibson/clj-amazon "0.3.0-SNAPSHOT"]
+    [org.clojars.leppert/clj-amazon "0.3.0-SNAPSHOT"]
 
 ### From the REPL
 Leiningen 2 has been used with this project.

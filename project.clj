@@ -1,6 +1,6 @@
-(defproject org.clojars.rorygibson/clj-amazon "0.3.0-SNAPSHOT"
+(defproject org.clojars.leppert/clj-amazon "0.3.0-SNAPSHOT"
   :description "Clojure bindings for the Amazon Product Advertising API."
-  :url "http://github.com/rorygibson/clj-amazon/"
+  :url "http://github.com/leppert/clj-amazon/"
   :license {:name "Eclipse Public License - v 1.0"
             :url "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
