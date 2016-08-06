@@ -67,9 +67,8 @@
 
 (defn encode-url
   "Straight URL encode in a given charset"
-  [url encoding]
-  (if url (java.net.URLEncoder/encode url encoding)))
-
+  ([url encoding] (if url (java.net.URLEncoder/encode url encoding)))
+  ([url] (encode-url url UTF-8)))
 
 (defn assoc+
   "Associate a key and value with a map. If the key already exists, replace the value with a vector of values containing the original value, and onj the new v onto the vector."
