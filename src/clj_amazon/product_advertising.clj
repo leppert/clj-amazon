@@ -41,6 +41,8 @@
     :Actor [:actor (first (:content xml))]
     :Ancestors [:ancestors (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ASIN [:asin (first (:content xml))]
+    :ISBN [:isbn (first (:content xml))]
+    :EAN [:ean (first (:content xml))]
     :Author [:author (first (:content xml))]
     :BrowseNode (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
     :BrowseNodeId [:browser-node-id (read-string (first (:content xml)))]
@@ -53,6 +55,8 @@
     :ImageSets [:image-sets (vec (map parse-results (:content xml)))]
     :ImageSet (-> (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
                 (assoc :category (-> xml :attrs :Category)))
+    :EditorialReviews [:editorial-reviews (vec (map parse-results (:content xml)))]
+    :EditorialReview {:source (-> xml :content first :content first), :content (-> xml :content second :content first)}
     :SwatchImage [:swatch-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :SmallImage [:small-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ThumbnailImage [:thumbnail-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
