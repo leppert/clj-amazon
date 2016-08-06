@@ -76,6 +76,7 @@
     :ProductGroup [:product-group (first (:content xml))]
     :NewReleases [:new-releases (map parse-results (:content xml))]
     :NewRelease (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
+    :SalesRank [:sales-rank (Integer. (first (:content xml)))]
     :Title [:title (first (:content xml))]
     :TopItem (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
     :TopItemSet [:top-item-set (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
