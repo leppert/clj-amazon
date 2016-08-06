@@ -66,7 +66,9 @@
     :Manufacturer [:manufacturer (first (:content xml))]
     :Name [:name (first (:content xml))]
     :OfferSummary [:offer-summary (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
-    :LowestNewPrice [:lowest-new-price {:amount (-> xml :content first :content) :formatted-price (-> xml :content (nth 2) :content)}]
+    :LowestNewPrice [:lowest-new-price {:amount (Integer. (-> xml :content first :content first))
+                                        :currency-code (-> xml :content (nth 1) :content first)
+                                        :formatted-price (-> xml :content (nth 2) :content first)}]
     :ProductGroup [:product-group (first (:content xml))]
     :NewReleases [:new-releases (map parse-results (:content xml))]
     :NewRelease (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
