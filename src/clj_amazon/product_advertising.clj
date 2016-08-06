@@ -50,6 +50,9 @@
     :ItemAttributes [:item-attributes (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ItemLinks [:item-links (vec (map parse-results (:content xml)))]
     :ItemLink {:description (-> xml :content first :content first), :url (-> xml :content second :content first)}
+    :ImageSets [:image-sets (vec (map parse-results (:content xml)))]
+    :ImageSet (-> (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
+                (assoc :category (-> xml :attrs :Category)))
     :SwatchImage [:swatch-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :SmallImage [:small-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ThumbnailImage [:thumbnail-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
