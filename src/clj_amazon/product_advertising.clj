@@ -65,18 +65,18 @@
     :LargeImage [:large-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :HiResImage [:hi-res-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :URL [:url (first (:content xml))]
-    :Width [:width (Integer. (first (:content xml)))]
-    :Height [:height (Integer. (first (:content xml)))]
+    :Width [:width (_str->int (first (:content xml)))]
+    :Height [:height (_str->int (first (:content xml)))]
     :Manufacturer [:manufacturer (first (:content xml))]
     :Name [:name (first (:content xml))]
     :OfferSummary [:offer-summary (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
-    :LowestNewPrice [:lowest-new-price {:amount (Integer. (-> xml :content first :content first))
+    :LowestNewPrice [:lowest-new-price {:amount (_str->int (-> xml :content first :content first))
                                         :currency-code (-> xml :content (nth 1) :content first)
                                         :formatted-price (-> xml :content (nth 2) :content first)}]
     :ProductGroup [:product-group (first (:content xml))]
     :NewReleases [:new-releases (map parse-results (:content xml))]
     :NewRelease (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
-    :SalesRank [:sales-rank (Integer. (first (:content xml)))]
+    :SalesRank [:sales-rank (_str->int (first (:content xml)))]
     :Title [:title (first (:content xml))]
     :TopItem (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
     :TopItemSet [:top-item-set (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]

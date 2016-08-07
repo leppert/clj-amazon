@@ -85,6 +85,11 @@
 (defn _bool->str
   [bool] (if bool "True" "False"))
 
+(defn _str->int
+  [string]
+  (if (re-matches #"^[1-9]\d+$" string)
+    (Integer/parseInt string)
+    string))
 
 (defn _str->sym
   [string]
