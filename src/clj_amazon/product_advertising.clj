@@ -52,11 +52,13 @@
     :ItemAttributes [:item-attributes (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ItemLinks [:item-links (vec (map parse-results (:content xml)))]
     :ItemLink {:description (-> xml :content first :content first), :url (-> xml :content second :content first)}
+    :EditorialReviews [:editorial-reviews (vec (map parse-results (:content xml)))]
+    :EditorialReview {:source (-> xml :content first :content first), :content (-> xml :content second :content first)}
+
+    ;; Images
     :ImageSets [:image-sets (vec (map parse-results (:content xml)))]
     :ImageSet (-> (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
                 (assoc :category (-> xml :attrs :Category)))
-    :EditorialReviews [:editorial-reviews (vec (map parse-results (:content xml)))]
-    :EditorialReview {:source (-> xml :content first :content first), :content (-> xml :content second :content first)}
     :SwatchImage [:swatch-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :SmallImage [:small-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ThumbnailImage [:thumbnail-image (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
@@ -67,12 +69,16 @@
     :URL [:url (first (:content xml))]
     :Width [:width (_str->int (first (:content xml)))]
     :Height [:height (_str->int (first (:content xml)))]
+
     :Manufacturer [:manufacturer (first (:content xml))]
     :Name [:name (first (:content xml))]
     :OfferSummary [:offer-summary (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
-    :LowestNewPrice [:lowest-new-price {:amount (_str->int (-> xml :content first :content first))
-                                        :currency-code (-> xml :content (nth 1) :content first)
-                                        :formatted-price (-> xml :content (nth 2) :content first)}]
+
+    ;; Pricing
+    :Amount [:amount (_str->int (first (:content xml)))]
+    :CurrencyCode [:currency-code (first (:content xml))]
+    :FormattedPrice [:formatted-price (first (:content xml))]
+    :LowestNewPrice [:lowest-new-price (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))]
     :ProductGroup [:product-group (first (:content xml))]
     :NewReleases [:new-releases (map parse-results (:content xml))]
     :NewRelease (reduce #(apply assoc+ %1 (parse-results %2)) {} (:content xml))
