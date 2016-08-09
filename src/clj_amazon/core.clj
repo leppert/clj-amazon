@@ -87,7 +87,7 @@
 
 (defn _str->int
   [string]
-  (if (re-matches #"^[1-9]\d+$" string)
+  (if (re-matches #"^0|(?:[1-9]\d*)$" string)
     (Integer/parseInt string)
     string))
 
